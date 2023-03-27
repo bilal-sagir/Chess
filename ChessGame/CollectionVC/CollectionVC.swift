@@ -9,7 +9,7 @@ import UIKit
 
 class CollectionVC: UIViewController {
     
-    let viewModel = CollectionVM(gameManager: GameManager(gameData: initialGameData))
+    let viewModel = CollectionVM(gameManager: GameManager())
 
     private lazy var collectionView: UICollectionView = {
         let viewLayout = UICollectionViewFlowLayout()
@@ -71,13 +71,13 @@ extension CollectionVC: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCell.identifier, for: indexPath) as! CollectionViewCell
-        let item = viewModel.gameManager.itemForCell(atIndexPath: indexPath)
+        let item = viewModel.itemForCell(atIndexPath: indexPath)
         cell.configure(imageName: item.imageName())
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        viewModel.gameManager.movePiece(indexPath: indexPath) {
+        viewModel.didSelectItem(atIndexPath: indexPath) {
             collectionView.reloadData()
         }
     }

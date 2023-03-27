@@ -27,6 +27,7 @@ public class Piece {
     let type: PieceType
     let color: PieceColor
     var position: (Int, Int)
+    var isSelected = false
     
     init(type: PieceType, color:PieceColor, position: (Int, Int)) {
         self.type = type

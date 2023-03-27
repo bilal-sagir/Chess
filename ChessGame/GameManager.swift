@@ -7,45 +7,29 @@
 
 import Foundation
 
+typealias Position = (Int, Int)
+
 class GameManager {
     
-    var gameData: [Piece]
-    
-    init(gameData: [Piece]) {
-        self.gameData = gameData
-    }
-    
-    private var firstPosition: (Int, Int)?
-    private var lastPosition: (Int, Int)?
-    
-    func movePiece(indexPath: IndexPath, completion: ()->()) {
-        if firstPosition == nil {
-            firstPosition = indexPathToPosition(indexPath: indexPath)
-        } else {
-            lastPosition = indexPathToPosition(indexPath: indexPath)
-            guard let firstPosition = firstPosition, let lastPosition = lastPosition else { return }
-            piece(atPosition: lastPosition).position = firstPosition
-            piece(atPosition: firstPosition).position = lastPosition
-            self.firstPosition = nil
-            self.lastPosition = nil
-            completion()
-        }
-    }
-    
-    func itemForCell(atIndexPath indexPath: IndexPath) -> Piece {
+    func itemForCell(atIndexPath indexPath: IndexPath, gameData: [Piece]) -> Piece {
         return gameData.first(where: { $0.position == (indexPath.row, indexPath.section) })! // TODO: remove force
     }
     
-    private func piece(atPosition position: (Int, Int)) -> Piece {
-        return gameData.first(where: { $0.position == position })! // TODO: remove force
-    }
-    
-    private func changePosition(item: Piece, newPosition: (Int, Int)) {
-        item.position = newPosition
-    }
-    
-    private func indexPathToPosition(indexPath: IndexPath) -> (Int, Int) {
-        return (indexPath.row, indexPath.section)
+    func swapItem(firstPosition: Position, lastPosition: Position, gameData: [Piece]) -> [Piece] {
+        var newGameData = [Piece]()
+        
+        for piece in gameData {
+            if piece.position == firstPosition {
+                piece.position = lastPosition
+                piece.isSelected = true
+            }
+            if piece.position == lastPosition && !piece.isSelected {
+                piece.position = firstPosition
+            }
+            newGameData.append(piece)
+        }
+        
+        return newGameData
     }
     
     private func detectAvailableMoves(piece: Piece) {
