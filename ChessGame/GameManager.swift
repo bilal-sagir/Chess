@@ -7,15 +7,13 @@
 
 import Foundation
 
-protocol GameManagerDelegate {
-    func gameDataUpdated()
-}
-
 class GameManager {
-        
-    static let shared = GameManager()
     
-    var gameData = initialGameData
+    var gameData: [Piece]
+    
+    init(gameData: [Piece]) {
+        self.gameData = gameData
+    }
     
     private var firstPosition: (Int, Int)?
     private var lastPosition: (Int, Int)?

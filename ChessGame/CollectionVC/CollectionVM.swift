@@ -9,5 +9,9 @@ import Foundation
 
 class CollectionVM {
 
-    var data = GameManager.shared.gameData
+    let gameManager: GameManager
+    
+    init(gameManager: GameManager) {
+        self.gameManager = gameManager
+    }
 }
