@@ -7,9 +7,9 @@
 
 import UIKit
 
-class CollectionVC: UIViewController {
+class GameVC: UIViewController {
     
-    let viewModel = CollectionVM(gameManager: GameManager())
+    let viewModel = GameVM(gameManager: GameManager())
 
     private lazy var collectionView: UICollectionView = {
         let viewLayout = UICollectionViewFlowLayout()
@@ -42,7 +42,7 @@ class CollectionVC: UIViewController {
         collectionView.delegate = self
 //        collectionView.dragDelegate = self
 //        collectionView.dropDelegate = self
-        collectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: CollectionViewCell.identifier)
+        collectionView.register(GameCollectionViewCell.self, forCellWithReuseIdentifier: GameCollectionViewCell.identifier)
     }
     
     private func setConstraints() {
@@ -59,7 +59,7 @@ class CollectionVC: UIViewController {
     }
 }
 
-extension CollectionVC: UICollectionViewDataSource, UICollectionViewDelegate {
+extension GameVC: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 8
@@ -70,7 +70,7 @@ extension CollectionVC: UICollectionViewDataSource, UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCell.identifier, for: indexPath) as! CollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GameCollectionViewCell.identifier, for: indexPath) as! GameCollectionViewCell
         let item = viewModel.itemForCell(atIndexPath: indexPath)
         cell.configure(imageName: item.imageName())
         return cell
@@ -83,7 +83,7 @@ extension CollectionVC: UICollectionViewDataSource, UICollectionViewDelegate {
     }
 }
 
-extension CollectionVC: UICollectionViewDelegateFlowLayout {
+extension GameVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         return CGSize(width: view.frame.width / 8, height: view.frame.width / 8)

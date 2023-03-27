@@ -16,11 +16,11 @@
 		9CD22DF529C0B800005266B2 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD22DF429C0B800005266B2 /* Color+Extension.swift */; };
 		9CD22DF829C0B9DE005266B2 /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD22DF729C0B9DE005266B2 /* AppColors.swift */; };
 		9CD22DFB29C21514005266B2 /* TestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD22DFA29C21514005266B2 /* TestVC.swift */; };
-		9CD22DFE29C216C4005266B2 /* CollectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD22DFD29C216C4005266B2 /* CollectionVC.swift */; };
-		9CD22E0029C21B1F005266B2 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD22DFF29C21B1F005266B2 /* CollectionViewCell.swift */; };
+		9CD22DFE29C216C4005266B2 /* GameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD22DFD29C216C4005266B2 /* GameVC.swift */; };
+		9CD22E0029C21B1F005266B2 /* GameCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD22DFF29C21B1F005266B2 /* GameCollectionViewCell.swift */; };
 		9CD22E0329C279FE005266B2 /* Piece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD22E0229C279FE005266B2 /* Piece.swift */; };
 		9CD22E0629C27C6D005266B2 /* InitialGameData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD22E0529C27C6D005266B2 /* InitialGameData.swift */; };
-		9CD22E0829C27DB4005266B2 /* CollectionVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD22E0729C27DB4005266B2 /* CollectionVM.swift */; };
+		9CD22E0829C27DB4005266B2 /* GameVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD22E0729C27DB4005266B2 /* GameVM.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,11 +35,11 @@
 		9CD22DF429C0B800005266B2 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 		9CD22DF729C0B9DE005266B2 /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
 		9CD22DFA29C21514005266B2 /* TestVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestVC.swift; sourceTree = "<group>"; };
-		9CD22DFD29C216C4005266B2 /* CollectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionVC.swift; sourceTree = "<group>"; };
-		9CD22DFF29C21B1F005266B2 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
+		9CD22DFD29C216C4005266B2 /* GameVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameVC.swift; sourceTree = "<group>"; };
+		9CD22DFF29C21B1F005266B2 /* GameCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCollectionViewCell.swift; sourceTree = "<group>"; };
 		9CD22E0229C279FE005266B2 /* Piece.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Piece.swift; sourceTree = "<group>"; };
 		9CD22E0529C27C6D005266B2 /* InitialGameData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialGameData.swift; sourceTree = "<group>"; };
-		9CD22E0729C27DB4005266B2 /* CollectionVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionVM.swift; sourceTree = "<group>"; };
+		9CD22E0729C27DB4005266B2 /* GameVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameVM.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,14 +72,14 @@
 		9CD22DD829C0B24A005266B2 /* ChessGame */ = {
 			isa = PBXGroup;
 			children = (
+				9C2ED97A29D1081800B73B05 /* GameManager.swift */,
 				9CD22E0429C27C5A005266B2 /* GameData */,
 				9CD22E0129C2797F005266B2 /* GameModel */,
 				9CD22DEF29C0B443005266B2 /* GridView */,
-				9CD22DFC29C216AF005266B2 /* CollectionVC */,
+				9CD22DFC29C216AF005266B2 /* Game */,
 				9CD22DF929C214F2005266B2 /* TestingEnviroment */,
 				9CD22DF129C0B48D005266B2 /* Assets */,
 				9CD22DF029C0B46A005266B2 /* Utils */,
-				9C2ED97A29D1081800B73B05 /* GameManager.swift */,
 			);
 			path = ChessGame;
 			sourceTree = "<group>";
@@ -129,14 +129,14 @@
 			path = TestingEnviroment;
 			sourceTree = "<group>";
 		};
-		9CD22DFC29C216AF005266B2 /* CollectionVC */ = {
+		9CD22DFC29C216AF005266B2 /* Game */ = {
 			isa = PBXGroup;
 			children = (
-				9CD22DFD29C216C4005266B2 /* CollectionVC.swift */,
-				9CD22DFF29C21B1F005266B2 /* CollectionViewCell.swift */,
-				9CD22E0729C27DB4005266B2 /* CollectionVM.swift */,
+				9CD22DFD29C216C4005266B2 /* GameVC.swift */,
+				9CD22DFF29C21B1F005266B2 /* GameCollectionViewCell.swift */,
+				9CD22E0729C27DB4005266B2 /* GameVM.swift */,
 			);
-			path = CollectionVC;
+			path = Game;
 			sourceTree = "<group>";
 		};
 		9CD22E0129C2797F005266B2 /* GameModel */ = {
@@ -225,14 +225,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9CD22E0029C21B1F005266B2 /* CollectionViewCell.swift in Sources */,
+				9CD22E0029C21B1F005266B2 /* GameCollectionViewCell.swift in Sources */,
 				9C2ED97B29D1081800B73B05 /* GameManager.swift in Sources */,
-				9CD22DFE29C216C4005266B2 /* CollectionVC.swift in Sources */,
+				9CD22DFE29C216C4005266B2 /* GameVC.swift in Sources */,
 				9CD22DFB29C21514005266B2 /* TestVC.swift in Sources */,
 				9CD22DF829C0B9DE005266B2 /* AppColors.swift in Sources */,
 				9CD22DF329C0B50B005266B2 /* GridView.swift in Sources */,
 				9CD22DF529C0B800005266B2 /* Color+Extension.swift in Sources */,
-				9CD22E0829C27DB4005266B2 /* CollectionVM.swift in Sources */,
+				9CD22E0829C27DB4005266B2 /* GameVM.swift in Sources */,
 				9CD22E0629C27C6D005266B2 /* InitialGameData.swift in Sources */,
 				9CD22DDA29C0B24A005266B2 /* AppDelegate.swift in Sources */,
 				9CD22DDC29C0B24A005266B2 /* SceneDelegate.swift in Sources */,

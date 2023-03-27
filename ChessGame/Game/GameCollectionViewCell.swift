@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CollectionViewCell: UICollectionViewCell {
+class GameCollectionViewCell: UICollectionViewCell {
     public static let identifier = "CollectionViewCell"
     
     lazy var imageView: UIImageView = {

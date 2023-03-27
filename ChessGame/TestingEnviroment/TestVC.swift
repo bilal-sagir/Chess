@@ -11,7 +11,7 @@ class TestVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let childVC = CollectionVC()
+        let childVC = GameVC()
         
         addChild(childVC)
         self.view.addSubview(childVC.view)

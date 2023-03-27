@@ -7,7 +7,7 @@
 
 import Foundation
 
-class CollectionVM {
+class GameVM {
 
     let gameManager: GameManager
     var gameData = initialGameData
@@ -28,7 +28,7 @@ class CollectionVM {
             firstPosition = convertIndexPathToPosition(indexPath)
         } else {
             secondPosition = convertIndexPathToPosition(indexPath)
-            gameData = gameManager.swapItem(firstPosition: firstPosition!, lastPosition: secondPosition!, gameData: gameData)
+            gameData = gameManager.swapItem(firstPosition: firstPosition!, lastPosition: secondPosition!, gameData: gameData) // TODO: delete force
             firstPosition = nil
             secondPosition = nil
             resetSelected()
