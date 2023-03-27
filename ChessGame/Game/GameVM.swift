@@ -20,12 +20,20 @@ class GameVM {
     }
     
     func itemForCell(atIndexPath indexPath: IndexPath) -> Piece {
-        return gameManager.itemForCell(atIndexPath: indexPath, gameData: gameData)
+        return gameManager.itemForCell(atPosition: convertIndexPathToPosition(indexPath), gameData: gameData)
     }
     
     func didSelectItem(atIndexPath indexPath: IndexPath, completion: ()->() ) {
         if firstPosition == nil {
             firstPosition = convertIndexPathToPosition(indexPath)
+            guard let availablePositions = gameManager.detectAvailableMoves(position: firstPosition!, gameData: gameData) else { return }
+            for piece in gameData {
+                for position in availablePositions {
+                    if piece.position == position {
+                        piece.type = .available
+                    }
+                }
+            }
         } else {
             secondPosition = convertIndexPathToPosition(indexPath)
             gameData = gameManager.swapItem(firstPosition: firstPosition!, lastPosition: secondPosition!, gameData: gameData) // TODO: delete force
@@ -33,8 +41,9 @@ class GameVM {
             secondPosition = nil
             resetSelected()
 
-            completion()
+            
         }
+        completion()
     }
     
     private func convertIndexPathToPosition(_ indexPath: IndexPath) -> Position {
@@ -44,6 +53,9 @@ class GameVM {
     private func resetSelected() {
         for piece in gameData {
             piece.isSelected = false
+            if piece.type == .available {
+                piece.type = .empty
+            }
         }
     }
 }

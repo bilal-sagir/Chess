@@ -11,8 +11,10 @@ typealias Position = (Int, Int)
 
 class GameManager {
     
-    func itemForCell(atIndexPath indexPath: IndexPath, gameData: [Piece]) -> Piece {
-        return gameData.first(where: { $0.position == (indexPath.row, indexPath.section) })! // TODO: remove force
+    var isWhiteTop = true
+    
+    func itemForCell(atPosition position: Position, gameData: [Piece]) -> Piece {
+        return gameData.first(where: { $0.position == position })! // TODO: remove force
     }
     
     func swapItem(firstPosition: Position, lastPosition: Position, gameData: [Piece]) -> [Piece] {
@@ -32,10 +34,12 @@ class GameManager {
         return newGameData
     }
     
-    private func detectAvailableMoves(piece: Piece) {
+    func detectAvailableMoves(position: Position, gameData: [Piece]) -> [Position]? {
+        let piece = gameData.first(where: { $0.position == position })! // TODO: remove force
+        
         switch piece.type {
         case .pawn:
-            pawnRule()
+            return pawnRule(position: position, piece: piece) // TODO:  Refactor: if u pass piece to method, dont need this switch here!e
         case .rook:
             rookRule()
         case .knight:
@@ -48,12 +52,31 @@ class GameManager {
             kingRule()
         case .empty:
             emptyRule()
+        case .available:
+            emptyRule()
         }
+        return []
     }
     
     
-    private func pawnRule() {
-        
+    private func pawnRule(position: Position, piece: Piece) -> [Position]? { // TODO: refactor!
+        if isWhiteTop {
+            if piece.color == .white {
+                let availableMoves = [(position.0 , position.1 + 1), (position.0 , position.1 + 2)]
+                return availableMoves
+            } else {
+                let availableMoves = [(position.0 , position.1 - 1), (position.0 , position.1 - 2)]
+                return availableMoves
+            }
+        } else {
+            if piece.color == .white {
+                let availableMoves = [(position.0 , position.1 - 1), (position.0 , position.1 - 2)]
+                return availableMoves
+            } else {
+                let availableMoves = [(position.0 , position.1 + 1), (position.0 , position.1 + 2)]
+                return availableMoves
+            }
+        }
     }
     
     private func rookRule() {

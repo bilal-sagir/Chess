@@ -15,6 +15,7 @@ public enum PieceType: String {
     case queen = "Queen"
     case king = "King"
     case empty
+    case available
 }
 
 public enum PieceColor: String {
@@ -24,7 +25,7 @@ public enum PieceColor: String {
 }
 
 public class Piece {
-    let type: PieceType
+    var type: PieceType
     let color: PieceColor
     var position: (Int, Int)
     var isSelected = false
