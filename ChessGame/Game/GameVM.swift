@@ -24,9 +24,16 @@ class GameVM {
     }
     
     func didSelectItem(atIndexPath indexPath: IndexPath, completion: ()->() ) {
-        if firstPosition == nil {
+        
+        if let firstPosition = firstPosition {
+            secondPosition = convertIndexPathToPosition(indexPath)
+            gameData = gameManager.swapItem(firstPosition: firstPosition, lastPosition: secondPosition!, gameData: gameData)
+            self.firstPosition = nil
+            secondPosition = nil
+            resetSelected()
+        } else {
             firstPosition = convertIndexPathToPosition(indexPath)
-            guard let availablePositions = gameManager.detectAvailableMoves(position: firstPosition!, gameData: gameData) else { return }
+            guard let availablePositions = gameManager.detectAvailableMoves(position: firstPosition!, gameData: gameData) else { return } // TODO: delete force
             for piece in gameData {
                 for position in availablePositions {
                     if piece.position == position {
@@ -34,14 +41,6 @@ class GameVM {
                     }
                 }
             }
-        } else {
-            secondPosition = convertIndexPathToPosition(indexPath)
-            gameData = gameManager.swapItem(firstPosition: firstPosition!, lastPosition: secondPosition!, gameData: gameData) // TODO: delete force
-            firstPosition = nil
-            secondPosition = nil
-            resetSelected()
-
-            
         }
         completion()
     }
