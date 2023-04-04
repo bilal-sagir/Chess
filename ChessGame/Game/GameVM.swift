@@ -24,7 +24,6 @@ class GameVM {
     }
     
     func didSelectItem(atIndexPath indexPath: IndexPath, completion: ()->() ) {
-        
         if let firstPosition = firstPosition {
             secondPosition = convertIndexPathToPosition(indexPath)
             gameData = gameManager.swapItem(firstPosition: firstPosition, lastPosition: secondPosition!, gameData: gameData)

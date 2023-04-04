@@ -59,23 +59,16 @@ class GameManager {
     }
     
     
-    private func pawnRule(position: Position, piece: Piece) -> [Position]? { // TODO: refactor!
-        if isWhiteTop {
-            if piece.color == .white {
-                let availableMoves = [(position.0 , position.1 + 1), (position.0 , position.1 + 2)]
-                return availableMoves
-            } else {
-                let availableMoves = [(position.0 , position.1 - 1), (position.0 , position.1 - 2)]
-                return availableMoves
-            }
-        } else {
-            if piece.color == .white {
-                let availableMoves = [(position.0 , position.1 - 1), (position.0 , position.1 - 2)]
-                return availableMoves
-            } else {
-                let availableMoves = [(position.0 , position.1 + 1), (position.0 , position.1 + 2)]
-                return availableMoves
-            }
+    private func pawnRule(position: Position, piece: Piece) -> [Position]? {
+        switch piece.color {
+        case .white:
+            let availableMoves = isWhiteTop ? [(position.0 , position.1 + 1), (position.0 , position.1 + 2)] : [(position.0 , position.1 - 1), (position.0 , position.1 - 2)]
+            return availableMoves
+        case .black:
+            let availableMoves = isWhiteTop ? [(position.0 , position.1 - 1), (position.0 , position.1 - 2)] :  [(position.0 , position.1 + 1), (position.0 , position.1 + 2)]
+            return availableMoves
+        case .empty:
+            return []
         }
     }
     
