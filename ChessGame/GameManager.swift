@@ -7,39 +7,55 @@
 
 import Foundation
 
-typealias Position = (Int, Int)
+
+
+
+typealias GameData = [Piece]
 
 class GameManager {
     
-    var isWhiteTop = true
+    private var isWhiteTop = true
     
     func itemForCell(atPosition position: Position, gameData: [Piece]) -> Piece {
         return gameData.first(where: { $0.position == position })! // TODO: remove force
     }
     
-    func swapItem(firstPosition: Position, lastPosition: Position, gameData: [Piece]) -> [Piece] {
-        var newGameData = [Piece]()
+    
+    func decideAction(gameData: [Piece]) -> [Piece] {
+        let selectedItemCount = gameData.filter({ $0.isSelected == true }).count
+        guard let firstItem = gameData.first(where: { $0.isSelected == true }) else { return []}
         
-        for piece in gameData {
-            if piece.position == firstPosition {
-                piece.position = lastPosition
-                piece.isSelected = true
-            }
-            if piece.position == lastPosition && !piece.isSelected {
-                piece.position = firstPosition
-            }
-            newGameData.append(piece)
+        if selectedItemCount == 1 {
+            return detectAvailableMoves(piece: firstItem, gameData: gameData)
+        } else {
+            let secondItem = gameData.filter({ $0.isSelected == true })[1]
+            
+            let firstPosition = firstItem.position
+            let secondPosition = secondItem.position
+            
+            firstItem.position = secondPosition
+            secondItem.position = firstPosition
+            
+            resetSelected(gameData: gameData)
+            
+            return gameData
         }
-        
-        return newGameData
     }
     
-    func detectAvailableMoves(position: Position, gameData: [Piece]) -> [Position]? {
-        let piece = gameData.first(where: { $0.position == position })! // TODO: remove force
+    private func resetSelected(gameData: [Piece]) {
+        for piece in gameData {
+            piece.isSelected = false
+            if piece.type == .available {
+                piece.type = .empty
+            }
+        }
+    }
+    
+    func detectAvailableMoves(piece: Piece, gameData: [Piece]) -> [Piece] {
         
         switch piece.type {
         case .pawn:
-            return pawnRule(position: position, piece: piece) // TODO:  Refactor: if u pass piece to method, dont need this switch here!e
+            return pawnRule(piece: piece, gameData: gameData) // TODO:  Refactor: if u pass piece to method, dont need this switch here!e
         case .rook:
             rookRule()
         case .knight:
@@ -58,15 +74,37 @@ class GameManager {
         return []
     }
     
+    private func changePieceType(to: PieceType, piece: Piece, gameData: GameData) {
+        gameData.filter({$0 == piece})
+    }
     
-    private func pawnRule(position: Position, piece: Piece) -> [Position]? {
+    private func changePieceType(piecePositions: [Position], gameData: GameData, typeToChange type: PieceType) {
+        gameData.filter { item in
+            piecePositions.contains { $0 == item.position }
+        }.forEach { item in
+            item.type = type
+        }
+    }
+    
+    private func pawnRule(piece: Piece, gameData: [Piece]) -> GameData {
+        let position = piece.position
+        
         switch piece.color {
         case .white:
-            let availableMoves = isWhiteTop ? [(position.0 , position.1 + 1), (position.0 , position.1 + 2)] : [(position.0 , position.1 - 1), (position.0 , position.1 - 2)]
-            return availableMoves
+            let availableMoves = isWhiteTop ? [Position(x: position.x , y: position.y + 1),
+                                               Position(x: position.x , y: position.y + 2)] : [Position(x: position.x , y: position.y - 1),
+                                                                                               Position(x: position.x , y: position.y - 2)]
+            
+            changePieceType(piecePositions: availableMoves, gameData: gameData, typeToChange: .available)
+            
+            return gameData
         case .black:
-            let availableMoves = isWhiteTop ? [(position.0 , position.1 - 1), (position.0 , position.1 - 2)] :  [(position.0 , position.1 + 1), (position.0 , position.1 + 2)]
-            return availableMoves
+            let availableMoves = isWhiteTop ? [Position(x: position.x , y: position.y - 1), Position(x: position.x , y: position.y - 2)] :  [Position(x: position.x , y: position.y + 1), Position(x: position.x , y: position.y + 2)]
+            
+            changePieceType(piecePositions: availableMoves, gameData: gameData, typeToChange: .available)
+
+
+            return gameData
         case .empty:
             return []
         }

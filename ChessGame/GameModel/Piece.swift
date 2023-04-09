@@ -27,10 +27,10 @@ public enum PieceColor: String {
 public class Piece {
     var type: PieceType
     let color: PieceColor
-    var position: (Int, Int)
+    var position: Position
     var isSelected = false
     
-    init(type: PieceType, color:PieceColor, position: (Int, Int)) {
+    init(type: PieceType, color:PieceColor, position: Position) {
         self.type = type
         self.color = color
         self.position = position
@@ -40,3 +40,38 @@ public class Piece {
         return color.rawValue + type.rawValue
     }
 }
+
+extension Piece: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(type)
+        hasher.combine(color)
+        hasher.combine(position)
+    }
+    
+    public static func == (lhs: Piece, rhs: Piece) -> Bool {
+        return lhs.type == rhs.type &&
+            lhs.color == rhs.color &&
+            lhs.position == rhs.position
+    }
+}
+
+public class Position {
+    let x: Int
+    let y: Int
+    init(x: Int, y: Int) {
+        self.x = x
+        self.y = y
+    }
+}
+
+extension Position: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.x)
+        hasher.combine(self.y)
+    }
+    
+    public static func == (lhs: Position, rhs: Position) -> Bool {
+        return lhs.x == rhs.x && lhs.y == rhs.y
+    }
+}
+
