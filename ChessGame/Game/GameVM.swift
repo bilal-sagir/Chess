@@ -21,7 +21,7 @@ class GameVM {
     }
     
     func didSelectItem(atIndexPath indexPath: IndexPath, completion: ()->() ) {
-        gameData.first(where: { $0.position == indexPath.toPosition() })?.isSelected = true
+        //gameData.first(where: { $0.position == indexPath.toPosition() })?.isSelected = true
         
         gameData = gameManager.decideAction(gameData: gameData)
         completion()

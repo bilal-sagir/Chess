@@ -21,28 +21,38 @@ class GameManager {
     }
     
     
-    func decideAction(gameData: [Piece]) -> [Piece] {
+    func decideAction(gameData: GameData ) -> GameData {
         let selectedItemCount = gameData.filter({ $0.isSelected == true }).count
         guard let firstItem = gameData.first(where: { $0.isSelected == true }) else { return []}
+       
         
         if selectedItemCount == 1 {
-            return detectAvailableMoves(piece: firstItem, gameData: gameData)
+            let availableMoves = detectAvailableMoves(piece: firstItem, gameData: gameData)
+            changePieceType(piecePositions: availableMoves, gameData: gameData, typeToChange: .available)
+            return gameData
         } else {
             let secondItem = gameData.filter({ $0.isSelected == true })[1]
             
             let firstPosition = firstItem.position
             let secondPosition = secondItem.position
             
-            firstItem.position = secondPosition
-            secondItem.position = firstPosition
+            let available = gameData.filter({ $0.type == .available})
+            let availablePositions = available.map({$0.position})
             
-            resetSelected(gameData: gameData)
+            
+            
+            if availablePositions.contains(secondPosition) {
+                firstItem.position = secondPosition
+                secondItem.position = firstPosition
+            }
+            
+            resetAllSelected(gameData: gameData)
             
             return gameData
         }
     }
     
-    private func resetSelected(gameData: [Piece]) {
+    private func resetAllSelected(gameData: [Piece]) {
         for piece in gameData {
             piece.isSelected = false
             if piece.type == .available {
@@ -51,11 +61,11 @@ class GameManager {
         }
     }
     
-    func detectAvailableMoves(piece: Piece, gameData: [Piece]) -> [Piece] {
+    func detectAvailableMoves(piece: Piece, gameData: [Piece]) -> [Position] {
         
         switch piece.type {
         case .pawn:
-            return pawnRule(piece: piece, gameData: gameData) // TODO:  Refactor: if u pass piece to method, dont need this switch here!e
+            return pawnRule(piece: piece, gameData: gameData)
         case .rook:
             rookRule()
         case .knight:
@@ -74,10 +84,6 @@ class GameManager {
         return []
     }
     
-    private func changePieceType(to: PieceType, piece: Piece, gameData: GameData) {
-        gameData.filter({$0 == piece})
-    }
-    
     private func changePieceType(piecePositions: [Position], gameData: GameData, typeToChange type: PieceType) {
         gameData.filter { item in
             piecePositions.contains { $0 == item.position }
@@ -86,7 +92,7 @@ class GameManager {
         }
     }
     
-    private func pawnRule(piece: Piece, gameData: [Piece]) -> GameData {
+    private func pawnRule(piece: Piece, gameData: [Piece]) -> [Position] {
         let position = piece.position
         
         switch piece.color {
@@ -95,16 +101,12 @@ class GameManager {
                                                Position(x: position.x , y: position.y + 2)] : [Position(x: position.x , y: position.y - 1),
                                                                                                Position(x: position.x , y: position.y - 2)]
             
-            changePieceType(piecePositions: availableMoves, gameData: gameData, typeToChange: .available)
+            return availableMoves
             
-            return gameData
+        
         case .black:
             let availableMoves = isWhiteTop ? [Position(x: position.x , y: position.y - 1), Position(x: position.x , y: position.y - 2)] :  [Position(x: position.x , y: position.y + 1), Position(x: position.x , y: position.y + 2)]
-            
-            changePieceType(piecePositions: availableMoves, gameData: gameData, typeToChange: .available)
-
-
-            return gameData
+            return availableMoves
         case .empty:
             return []
         }
